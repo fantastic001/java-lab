@@ -1,5 +1,6 @@
 package com.stefan.samples.reflection;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Hashtable;
 
@@ -13,6 +14,9 @@ public class App {
             Class cls = Class.forName("com.stefan.samples.reflection.Sample");
             for (Class i : cls.getInterfaces()) {
                 System.out.println(i.getName());
+            }
+            for (Field field : cls.getFields()) {
+                System.out.println(field.getName() + ": " + field.getType().getName());
             }
             ISample sample;
             try {
