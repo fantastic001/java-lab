@@ -57,7 +57,8 @@ public class App {
         Class<?> objCls = sampleObject.getClass();
         for (Field f : objCls.getDeclaredFields()) {
             try {
-                System.out.println("For concrete object field " + f.getName() + " is " + f.get(sampleObject).toString());
+                System.out
+                        .println("For concrete object field " + f.getName() + " is " + f.get(sampleObject).toString());
             } catch (IllegalArgumentException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -65,6 +66,15 @@ public class App {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+        }
+
+        FileClassLoader loader = new FileClassLoader();
+        try {
+            System.out.println("Class name which is found: "
+                    + loader.loadClass("com.stefan.samples.reflection.Sample").getName());
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 }
