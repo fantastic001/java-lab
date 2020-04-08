@@ -5,6 +5,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Hashtable;
 
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+
 /**
  * Hello world!
  *
@@ -75,6 +81,15 @@ public class App {
         } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+            .setUrls(ClasspathHelper.forPackage("com.stefan.samples.reflection"))
+            .setScanners(new TypeAnnotationsScanner(), new SubTypesScanner())
+        );
+        System.err.println("Classes annotated with SampleAnnotation");
+
+        for (Class clss : reflections.getTypesAnnotatedWith(SampleAnnotation.class, false)) {
+            System.out.println(clss.getName());
         }
     }
 }
