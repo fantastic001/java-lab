@@ -4,6 +4,10 @@ import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -37,7 +41,10 @@ public class App
                 System.out.println("\nNode Name :" + node.getNodeName());  
                 if (node.getNodeType() == Node.ELEMENT_NODE)   
                 {  
-                    Element eElement = (Element) node;  
+                    Element eElement = (Element) node;
+                    Element status = doc.createElement("status");
+                    status.setAttribute("status", "ok");
+                    eElement.appendChild(status);
                     System.out.println("Student id: "+ eElement.getElementsByTagName("id").item(0).getTextContent());  
                     System.out.println("First Name: "+ eElement.getElementsByTagName("firstname").item(0).getTextContent());  
                     System.out.println("Last Name: "+ eElement.getElementsByTagName("lastname").item(0).getTextContent());  
@@ -45,6 +52,12 @@ public class App
                     System.out.println("Marks: "+ eElement.getElementsByTagName("marks").item(0).getTextContent());  
                 }  
             }
+
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource domSource = new DOMSource(doc);
+            StreamResult streamResult = new StreamResult(new File("./processed.xml"));
+            transformer.transform(domSource, streamResult);
         }   
         catch (Exception e)   
         {  
